@@ -1,0 +1,54 @@
+<html>
+				<head>
+				<!-- Latest compiled and minified CSS -->
+					<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+					
+					<!-- Optional theme -->
+					<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+					
+					<!-- Latest compiled and minified JavaScript -->
+					<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+					
+					<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+					
+					<link href="http://elhombreorquesta.net/wp-content/themes/TemaEHO/css/version.css" rel="stylesheet">
+					
+				</head>
+				<body>
+					<div class="container">
+						<div class="jumbotron">
+							
+							<h1>picamera Server</h1>
+							
+							<img class="img-thumbnail" src="/cam.mjpg"/>
+							
+							    <form action='index.html' method="post" enctype="multipart/form-data">  
+								    <p>
+										
+									<!-- Multiple Radios -->
+									<div class="form-group">
+									  <label class="col-md-4 control-label" for="radios">Led:</label>
+									  <div class="col-md-4">
+									  <div class="radio">
+									    <label for="led-0">
+									      <input name="led" id="radios-0" value="1"  type="radio">
+									      ON
+									    </label>
+										</div>
+									  <div class="radio">
+									    <label for="radios-1">
+									      <input name="led" id="radios-1" value="2" type="radio">
+									      OFF
+									    </label>
+										</div>
+									  </div>
+									</div>	
+								    <button type="submit" class="btn btn-warning" value="Alarma">Configura</button>
+								    </p>
+								 </form>
+						
+							
+						</div>
+					</div>
+				</body>
+			</html>
