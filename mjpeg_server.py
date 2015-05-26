@@ -53,29 +53,7 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 				#self.wfile.write(errorPage.read())
 				self.send_error(404)
 			return
-		  
-		  
-	#def parse_POST(self):
-		#print "olakase"
-		#ctype, pdict = parse_header(self.headers['content-type'])
-		#if ctype == 'multipart/form-data':
-			#postvars = parse_multipart(self.rfile, pdict)
-		#elif ctype == 'application/x-www-form-urlencoded':
-			#length = int(self.headers['content-length'])
-			#postvars = parse_qs(
-				#self.rfile.read(length), 
-                #keep_blank_values=1)
-		#else:
-			#postvars = {}
-		#return postvars
-
-	#def do_POST(self):
-		
-		##parar streaming?
-		
-		
-		#postvars = self.parse_POST()
-		
+	
 		
 	def do_POST(self):
 		logging.warning("======= POST STARTED =======")
