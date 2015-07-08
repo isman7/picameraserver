@@ -1,23 +1,26 @@
 #!/usr/bin/python
 '''
+  Author: Ismael Benito Altamirano 
+  
   A Simple mjpg stream http server for the Raspberry Pi Camera
   inspired by https://gist.github.com/n3wtron/4624820
+  by Igor Maculan - n3wtron@gmail.com
 '''
-#from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+
+# Imports
 import SimpleHTTPServer
 import SocketServer
 import io
 import time
 import picamera
-#from cgi import parse_header, parse_multipart
 import cgi
-from os import curdir, sep
 import logging
 import RPi.GPIO as GPIO
- 
+from os import curdir, sep 
+
+
 camera=None
- 
- 
+
 class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 	def do_GET(self):
 		if self.path.endswith('.mjpg'):
@@ -98,8 +101,8 @@ def main():
   global img
   
   Handler = CamHandler
+  
   try:
-    #server = HTTPServer(('',8080),CamHandler)
     server = SocketServer.TCPServer(('localhost', 8090), Handler)
     print "server started"
     server.serve_forever()
