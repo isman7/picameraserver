@@ -69,7 +69,7 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 					self.wfile.write(htmlPage.read())
 				else:
 					errorPage = open(curdir + sep + '404.html')
-					self.send_error(404)
+					self.wfile.write(errorPage.read())
 			except KeyboardInterrupt:
 				pass 
 			return
