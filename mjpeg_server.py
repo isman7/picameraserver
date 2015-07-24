@@ -1,15 +1,22 @@
 #!/usr/bin/python
 '''
+  Author: Ismael Benito Altamirano 
+  
+  
+  
   A Simple mjpg stream http server for the Raspberry Pi Camera
   inspired by https://gist.github.com/n3wtron/4624820
+  by Igor Maculan - n3wtron@gmail.com
+  
+  
+  
 '''
-#from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+
 import SimpleHTTPServer
 import SocketServer
 import io
 import time
 import picamera
-#from cgi import parse_header, parse_multipart
 import cgi
 from os import curdir, sep
 import logging
@@ -54,28 +61,6 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 			return
 		  
 		  
-	#def parse_POST(self):
-		#print "olakase"
-		#ctype, pdict = parse_header(self.headers['content-type'])
-		#if ctype == 'multipart/form-data':
-			#postvars = parse_multipart(self.rfile, pdict)
-		#elif ctype == 'application/x-www-form-urlencoded':
-			#length = int(self.headers['content-length'])
-			#postvars = parse_qs(
-				#self.rfile.read(length), 
-                #keep_blank_values=1)
-		#else:
-			#postvars = {}
-		#return postvars
-
-	#def do_POST(self):
-		
-		##parar streaming?
-		
-		
-		#postvars = self.parse_POST()
-		
-		
 	def do_POST(self):
 		logging.warning("======= POST STARTED =======")
 		logging.warning(self.headers)
@@ -86,20 +71,12 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 					 'CONTENT_TYPE':self.headers['Content-Type'],
 					 })
 		logging.warning("======= POST VALUES =======")
+		
 		for item in form.list:
 			logging.warning(item)
 		logging.warning("\n")
 		
-		#if '1' in form.getlist("led"):
-			
-			#camera.led = True
-		
-		#elif '2' in form.getlist("led"):
-			
-			#camera.led = False
-		
 		camera.led = '1' in form.getlist("led")
-		
 		
 		SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 					
@@ -107,7 +84,6 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 def main():
   global camera
   camera = picamera.PiCamera()
-  #camera.resolution = (1280, 960)
   camera.resolution = (640, 480)
   camera.framerate = 24
   
@@ -118,7 +94,6 @@ def main():
   
   Handler = CamHandler
   try:
-    #server = HTTPServer(('',8080),CamHandler)
     server = SocketServer.TCPServer(('', 8900), Handler)
     print "server started"
     server.serve_forever()
