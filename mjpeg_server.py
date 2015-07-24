@@ -23,6 +23,13 @@ import logging
  
 # We need to declare the camera object empty to implement the server Handler.  
 camera=None
+
+# Dict that acts as a "mod_rewrite": 
+rewrite = {"/": "/index.html",
+		   "/index.html": "/index.html",
+		   "/index.php": "/index.html",
+		   "/index": "/index.html"}
+		   
  
 # Server Handler is defined as a Class.    
 class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
@@ -57,12 +64,13 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 			self.send_header('Content-type','text/html')
 			self.end_headers()
 			try:
-				htmlPage = open(curdir + sep + self.path)
-				self.wfile.write(htmlPage.read())
-			except IOError:
-				errorPage = open(curdir + sep + '404.html')
-				#self.wfile.write(errorPage.read())
-				self.send_error(404)
+				if self.path in rewrite:
+					htmlPage = open(curdir + sep + rewrite[self.path])
+					self.wfile.write(htmlPage.read())
+				else:
+					errorPage = open(curdir + sep + '404.html')
+					self.send_error(404)
+			except KeyboardInterrupt:
 				pass 
 			return
 		  
@@ -101,7 +109,7 @@ def main():
   
   Handler = CamHandler
   try:
-    server = SocketServer.TCPServer(('', 8990), Handler)
+    server = SocketServer.TCPServer(('', 8900), Handler)
     print "server started"
     server.serve_forever()
   except KeyboardInterrupt:
