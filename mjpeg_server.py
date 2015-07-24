@@ -21,17 +21,21 @@ import cgi
 from os import curdir, sep
 import logging
  
+# We need to declare the camera object empty to implement the server Handler.  
 camera=None
  
-  
+# Server Handler is defined as a Class.    
 class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 	def do_GET(self):
+	# When a GET solicitude comes into the server, then execute this:
 		if self.path.endswith('.mjpg'):
+			# If mjpg stream is required, take image and send it. 
 			self.send_response(200)
 			self.send_header('Content-type','multipart/x-mixed-replace; boundary=--jpgboundary')
 			self.end_headers()
 			stream=io.BytesIO()
 			try:
+				# Taking images from Raspberry pi camera:
 				start=time.time()
 				for foo in camera.capture_continuous(stream,'jpeg'):
 					self.wfile.write("--jpgboundary")
@@ -41,13 +45,14 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 					self.wfile.write(stream.getvalue())
 					stream.seek(0)
 					stream.truncate()
-					time.sleep(.5)
+					time.sleep(.1)
 			except KeyboardInterrupt:
 				pass 
 			return
 		
 			
 		else:
+			# If it is not mjpg stream evaluate try to read a page: 
 			self.send_response(200)
 			self.send_header('Content-type','text/html')
 			self.end_headers()
@@ -58,10 +63,12 @@ class CamHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 				errorPage = open(curdir + sep + '404.html')
 				#self.wfile.write(errorPage.read())
 				self.send_error(404)
+				pass 
 			return
 		  
 		  
 	def do_POST(self):
+	# When a POST solicitude comes into the server, then execute this:
 		logging.warning("======= POST STARTED =======")
 		logging.warning(self.headers)
 		form = cgi.FieldStorage(
@@ -85,7 +92,7 @@ def main():
   global camera
   camera = picamera.PiCamera()
   camera.resolution = (640, 480)
-  camera.framerate = 24
+  camera.framerate = 31
   
   
   camera.led = False
@@ -94,7 +101,7 @@ def main():
   
   Handler = CamHandler
   try:
-    server = SocketServer.TCPServer(('', 8900), Handler)
+    server = SocketServer.TCPServer(('', 8990), Handler)
     print "server started"
     server.serve_forever()
   except KeyboardInterrupt:
