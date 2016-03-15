@@ -2,13 +2,9 @@
 '''
   Author: Ismael Benito Altamirano 
   
-  
-  
-  A Simple mjpg stream http server for the Raspberry Pi Camera
+  Based on a Simple mjpg stream http server for the Raspberry Pi Camera
   inspired by https://gist.github.com/n3wtron/4624820
   by Igor Maculan - n3wtron@gmail.com
-  
-  
   
 '''
 
